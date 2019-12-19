@@ -2,10 +2,14 @@ package com.example.readjson08102019;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,12 +22,13 @@ import java.net.URLConnection;
 public class MainActivity extends AppCompatActivity {
 
     String mURL = "https://khoapham.vn/KhoaPhamTraining/json/tien/demo1.json";
+    ImageView mImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mImg = findViewById(R.id.imageview);
         new ReadJSON().execute(mURL);
     }
 
@@ -48,7 +53,12 @@ public class MainActivity extends AppCompatActivity {
                 String noihoc = jsonObject.optString("noihoc");
                 String website = jsonObject.optString("website");
                 String logo = jsonObject.optString("logo");
-
+                    Glide
+                        .with(MainActivity.this)
+                        .load(logo)
+                        .placeholder(R.mipmap.ic_launcher)
+                        .error(R.drawable.ic_launcher_background)
+                        .into(mImg);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
